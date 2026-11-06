@@ -87,23 +87,6 @@ def fmt_date_es(d: date) -> str:
     return f"{d.day} de {months[d.month - 1]} de {d.year}"
 
 
-HOURGLASS = """<svg viewBox="0 0 100 100" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="M22 12 H78 M22 88 H78" stroke-width="4"/>
-<path d="M28 14 C28 34 46 40 46 50 C46 60 28 66 28 86 L72 86 C72 66 54 60 54 50 C54 40 72 34 72 14 Z"/>
-<path d="M34 17 L66 17 L50 45 Z" fill="#c9a227" stroke="none" opacity="0.85"/>
-<path d="M50 48 L50 58" stroke="#d4af37" stroke-width="2"/>
-<path d="M36 84 L64 84 L58 70 L50 74 L42 70 Z" fill="#c9a227" stroke="none"/>
-</svg>"""
-
-COVER = [
-    "Hay recuerdos que desaparecen con el tiempo.",
-    "Otros permanecen, incluso cuando intentamos olvidarlos.",
-    "Durante mil días intentaré darles un lugar a esas historias que alguna vez fueron parte de mi vida.",
-    "Algunas tendrán nombres. Otras, apenas silencios.",
-    "No todas las historias necesitan un final.",
-    "Algunas solo necesitan ser contadas.",
-]
-
 SHARE_JS = """<script>
 function copyLink(btn){const u=btn.dataset.url;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>{btn.textContent='Enlace copiado ✓';setTimeout(()=>btn.textContent='Copiar enlace',2500);}).catch(()=>{fallbackCopy(u,btn);});}else{fallbackCopy(u,btn);}}
 function fallbackCopy(u,btn){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');btn.textContent='Enlace copiado ✓';}catch(e){btn.textContent=u;}document.body.removeChild(t);setTimeout(()=>btn.textContent='Copiar enlace',2500);}
@@ -149,7 +132,7 @@ def header(prefix, current=""):
         return ' aria-current="page"' if current == name else ""
     return f"""<body>
 <header class="top">
-<a class="logo" href="{prefix}index.html" aria-label="Inicio — Mil días">{HOURGLASS}<span>Mil días</span></a>
+<a class="logo" href="{prefix}index.html" aria-label="Inicio — Mil días"><img src="{prefix}assets/favicon.svg" alt="" width="24" height="24"><span>Mil días</span></a>
 <nav class="nav-links" aria-label="Navegación principal">
 <a class="nav-link" href="{prefix}acerca/"{cur("acerca")}>Qué es esto</a>
 <a class="nav-link" href="{prefix}dias/"{cur("archivo")}>Archivo</a>
@@ -160,8 +143,8 @@ def header(prefix, current=""):
 
 def footer(prefix, progress=None):
     return f"""<footer class="site">
-<p class="foot-title">Mil días · {esc(SITE['author'])}</p>
-<p class="foot-links"><a href="{prefix}acerca/">Qué es esto</a> · <a href="{prefix}dias/">Archivo</a> · <a href="{SITE_URL}/feed.xml">RSS</a> · <a href="{esc(SITE['portfolio'])}">Portfolio</a> · <a href="{esc(SITE['github'])}">GitHub</a></p>
+<p class="foot-title">Mil días</p>
+<p class="foot-links"><a href="{prefix}acerca/">Qué es esto</a> · <a href="{prefix}dias/">Archivo</a> · <a href="{SITE_URL}/feed.xml">RSS</a></p>
 </footer>
 {SHARE_JS}
 </body>
@@ -247,21 +230,20 @@ def main():
     # --- Portada ---
     latest = max(int(k) for k, v in DAYS.items() if v.get("published"))
     url = f"{SITE_URL}/"
-    desc = COVER[0] + " " + COVER[1]
-    manifesto_html = "\n".join(f"<p>{esc(p)}</p>" for p in MANIFESTO)
-    cover_html = "\n".join(f"<p>{esc(p)}</p>" for p in COVER)
+    desc = MANIFESTO[0] + " " + MANIFESTO[1]
+    manifesto_html = "\n".join(f"<p><em>{esc(p)}</em></p>" for p in MANIFESTO)
     index = (head(title="Mil días — Un archivo de recuerdos", description=desc,
                   url=url, prefix="")
              + header("")
              + f"""<main class="cover">
-{HOURGLASS.replace('viewBox="0 0 100 100"', 'viewBox="0 0 100 100" class="hero-svg"')}
+<img class="hero-svg" src="assets/hourglass.svg" alt="" width="60" height="92">
 <h1>Mil días</h1>
 <p class="subtitle">{esc(SITE['subtitle'])}</p>
 <hr class="gold-rule">
 <div class="cover-text">
-{cover_html}
+{manifesto_html}
 </div>
-<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span><span class="signature-date">3 de noviembre de 2026</span></p>
+<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span></p>
 <nav class="cover-actions" aria-label="Empezar a leer">
 <a class="cover-btn primary" href="dia/{latest}/">Comenzar a leer</a>
 <a class="cover-btn" href="dias/">Explorar los recuerdos</a>
@@ -311,7 +293,7 @@ def main():
 
     # --- Qué es esto (solo información verificada del proyecto) ---
     about = (head(title="Qué es esto — Mil días",
-                  description="Hay recuerdos que desaparecen con el tiempo. Otros permanecen, incluso cuando intentamos olvidarlos.",
+                  description="Hay recuerdos que no desaparecen.",
                   url=f"{SITE_URL}/acerca/", prefix="../")
              + header("../", current="acerca")
              + f"""<main class="about">
@@ -321,7 +303,7 @@ def main():
 <div class="manifesto">
 {manifesto_html}
 </div>
-<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span><span class="signature-date">3 de noviembre de 2026</span></p>
+<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span></p>
 <ul class="about-links">
 <li><a href="../">Leer desde el inicio — Día I</a></li>
 <li><a href="../dias/">Ver el archivo completo</a></li>

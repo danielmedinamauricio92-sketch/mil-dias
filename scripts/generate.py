@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generador estático de Mil días.
 
-Fuente única de contenido: content/days.json (días 1-4 transcritos de
-https://mil-dias.lovable.app/ vía browser.open; días 5-1000, placeholder).
+Fuente única de contenido: content/days.json (días 1-4 transcritos del
+sitio original; días 5-1000, placeholder).
 Uso:  python3 scripts/generate.py
 Salida: index.html, dias/index.html, acerca/index.html, dia/<n>/index.html,
         sitemap.xml, feed.xml, robots.txt, 404.html, vercel.json
@@ -17,7 +17,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE_URL = "https://danielmedinamauricio92-sketch.github.io/mil-dias"
+SITE_URL = "https://mil-dias-five.vercel.app"
 # Si se despliega en un dominio propio, cambiar SITE_URL arriba y listo.
 START = date(2026, 11, 3)
 
@@ -87,12 +87,12 @@ def fmt_date_es(d: date) -> str:
     return f"{d.day} de {months[d.month - 1]} de {d.year}"
 
 
-HOURGLASS = """<svg viewBox="0 0 100 100" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-<path d="M25 8 H75 M25 92 H75"/>
-<path d="M25 8 L45 50 L25 92 M75 8 L55 50 L75 92"/>
-<path d="M45 50 H55" stroke="#d4af37" stroke-width="2"/>
-<circle cx="50" cy="62" r="5" fill="#c9a227" stroke="none"/>
-<path d="M45 72 L55 72 L50 82 Z" fill="#c9a227" stroke="none"/>
+HOURGLASS = """<svg viewBox="0 0 100 100" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M22 12 H78 M22 88 H78" stroke-width="4"/>
+<path d="M28 14 C28 34 46 40 46 50 C46 60 28 66 28 86 L72 86 C72 66 54 60 54 50 C54 40 72 34 72 14 Z"/>
+<path d="M34 17 L66 17 L50 45 Z" fill="#c9a227" stroke="none" opacity="0.85"/>
+<path d="M50 48 L50 58" stroke="#d4af37" stroke-width="2"/>
+<path d="M36 84 L64 84 L58 70 L50 74 L42 70 Z" fill="#c9a227" stroke="none"/>
 </svg>"""
 
 SHARE_JS = """<script>
@@ -109,7 +109,6 @@ def head(*, title, description, url, prefix, og_type="website"):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
-<meta name="author" content="{esc(SITE['author'])}">
 <link rel="canonical" href="{esc(url)}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Mil días">
@@ -156,9 +155,8 @@ def footer(prefix, progress):
         n = 0
     pct = round(n / 1000 * 100, 1)
     return f"""<footer class="site">
-<p>Mil días — Un archivo de recuerdos · por {esc(SITE['author'])}</p>
-<p><a href="{prefix}acerca/">Qué es esto</a> · <a href="{esc(SITE['portfolio'])}">Portfolio</a> · <a href="{esc(SITE['github'])}">GitHub</a></p>
-<p>Reproducción estática hecha por el autor a partir de <a href="{esc(SITE['source'])}">mil-dias.lovable.app</a>, sin Lovable.</p>
+<p>Mil días — Un archivo de recuerdos</p>
+<p><a href="{prefix}acerca/">Qué es esto</a></p>
 </footer>
 <div class="progress" role="status" aria-label="Progreso del archivo: día {n} de 1000">
 <div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:{pct}%"></span></div>
@@ -225,7 +223,7 @@ def render_day(n):
     entry_class = "entry" if published else "entry placeholder"
     meta = (f'<p class="meta"><span>{fmt_date_es(d)}</span>'
             f'<span>{reading_minutes(n)} min de lectura</span>'
-            f'<span>por {esc(SITE["author"])}</span></p>' if published
+            f'</p>' if published
             else f'<p class="meta"><span>{fmt_date_es(d)}</span></p>')
     share = share_block(url, title) if published else ""
     article = f"""<main>
@@ -313,7 +311,7 @@ def main():
 
     # --- Qué es esto (solo información verificada del proyecto) ---
     about = (head(title="Qué es esto — Mil días",
-                  description="Mil días es un archivo de recuerdos de Mauricio Daniel Medina: mil días, del 3 de noviembre de 2026 al 29 de julio de 2029.",
+                  description="Mil días es un archivo de recuerdos: mil días, del 3 de noviembre de 2026 al 29 de julio de 2029.",
                   url=f"{SITE_URL}/acerca/", prefix="../")
              + header("../", current="acerca")
              + f"""<main class="about">
@@ -324,7 +322,6 @@ def main():
 <p>Mil días es un archivo de recuerdos: mil días, mil textos, publicados
 uno por día.</p>
 <dl>
-<dt>Autor</dt><dd>{esc(SITE['author'])}</dd>
 <dt>Inicio</dt><dd>3 de noviembre de 2026</dd>
 <dt>Fin</dt><dd>29 de julio de 2029</dd>
 <dt>Duración</dt><dd>1000 días</dd>
@@ -337,8 +334,6 @@ podés visitarlo cada día o suscribirte al feed RSS.</p>
 <li><a href="../">Leer desde el inicio — Día I</a></li>
 <li><a href="../dias/">Ver el archivo completo</a></li>
 <li><a href="../feed.xml">Feed RSS de los días publicados</a></li>
-<li><a href="{esc(SITE['portfolio'])}">Portfolio de {esc(SITE['author'])}</a></li>
-<li><a href="{esc(SITE['github'])}">GitHub de {esc(SITE['author'])}</a></li>
 </ul>
 </main>"""
              + footer("../", "4"))
@@ -380,7 +375,7 @@ podés visitarlo cada día o suscribirte al feed RSS.</p>
             '<rss version="2.0">\n<channel>\n'
             '  <title>Mil días</title>\n'
             f'  <link>{SITE_URL}/</link>\n'
-            '  <description>Un archivo de recuerdos — Mauricio Daniel Medina</description>\n'
+            '  <description>Un archivo de recuerdos</description>\n'
             '  <language>es-AR</language>\n'
             + "\n".join(items)
             + "\n</channel>\n</rss>\n")

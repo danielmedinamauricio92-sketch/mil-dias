@@ -1,22 +1,21 @@
 # Mil días
 
 Un archivo de recuerdos, del 3 de noviembre de 2026 al 29 de julio de 2029.
-Mil días, mil textos. Por Mauricio Daniel Medina.
+Mil días, mil textos.
 
-Reproducción estática hecha por el autor a partir de
-[https://mil-dias.lovable.app/](https://mil-dias.lovable.app/), sin Lovable:
-HTML, CSS y JavaScript vanilla, sin framework, sin base de datos, sin login.
+Sitio estático en HTML, CSS y JavaScript vanilla, sin framework,
+sin base de datos, sin login.
 
 ## Qué hay acá
 
 - `index.html` — portada con el manifiesto completo.
-- `acerca/` — "Qué es esto": solo datos verificados del proyecto
-  (autor, rango de fechas, 1000 días, links a portfolio y GitHub).
+- `acerca/` — "Qué es esto": datos del proyecto (rango de fechas,
+  1000 días).
 - `dias/` — archivo con los 1000 días en números romanos (I–M). Solo I–IV
   son enlaces; el resto está en gris, no clicable, agrupado por centenas,
   con saltos a cada grupo y el último día publicado destacado.
 - `dia/<n>/` — una página por día, del 1 al 1000.
-  - Días 1–4: texto completo, transcrito de mil-dias.lovable.app.
+  - Días 1–4: texto completo, ya publicado.
   - Días 5–999: «Este día aún no llegó.»
   - Día 1000: «Todavía no.»
 - `content/days.json` — **fuente única de contenido**. Los textos viven acá.
@@ -39,9 +38,8 @@ Sin tocar la voz ni los textos:
 - Cada día tiene título propio en `<title>` (su primera frase temática),
   meta description, Open Graph y Twitter Card con imagen para compartir.
 - Fecha real de publicación (día 1 = 2026-11-03, día 2 = 2026-11-04,
-  día 3 = 2026-11-05, día 4 = 2026-11-06), autor y tiempo de lectura.
+  día 3 = 2026-11-05, día 4 = 2026-11-06) y tiempo de lectura.
 - Botones para compartir: copiar enlace, WhatsApp, X y LinkedIn.
-- Footer con autor, portfolio y GitHub.
 - Archivo completo hasta el día 1000 (el original solo llegaba al C),
   con saltos por centenas y el último día publicado destacado.
 - Barra de progreso con porcentaje, navegación anterior/siguiente con
@@ -101,7 +99,5 @@ Para Vercel, en cambio: importar el repo, sin comando de build
 
 ## Nota sobre el contenido
 
-Los textos de los días 1–4 son los publicados por el autor en
-mil-dias.lovable.app al 6 de noviembre de 2026. Este repo es la versión
-propia y editable de ese proyecto; Lovable ya no es necesaria para
-trabajar en él.
+Los textos de los días 1–4 son los ya publicados al 6 de noviembre
+de 2026. Este repo es la versión propia y editable del proyecto.

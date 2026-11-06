@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://danielmedinamauricio92-sketch.github.io/mil-dias/sitemap.xml
+Sitemap: https://mil-dias-five.vercel.app/sitemap.xml

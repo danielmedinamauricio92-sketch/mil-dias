@@ -100,17 +100,21 @@ h2{font-weight:600;text-wrap:balance}
 .placeholder{font-size:1.6rem;font-style:italic;color:var(--ink-dim);padding:4rem 0}
 
 /* --- Archivo --- */
-.archive-jump{display:flex;justify-content:center;flex-wrap:wrap;gap:.45rem;margin:1.6rem 0 0}
-.archive-jump a{padding:.3rem .7rem;border:1px solid var(--line-soft);border-radius:999px;
-  font-size:.9rem;letter-spacing:.12em;color:var(--ink-dim)}
-.archive-jump a:hover{border-color:var(--gold);color:var(--gold-soft)}
-.archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:.7rem;margin-top:1.6rem}
-.archive-grid a{padding:.55rem .2rem;border:1px solid var(--line);color:var(--ink);font-size:1.05rem}
-.archive-grid a:hover{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,39,.08)}
-.archive-grid a.today{border-color:var(--gold);background:rgba(201,162,39,.14);color:var(--gold-soft);font-weight:600}
-.archive-grid span{padding:.55rem .2rem;color:#6b6250;font-size:1.05rem}
-.archive h2{font-size:1.35rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin:3rem 0 0;font-weight:500}
-.archive h2:target{color:var(--gold-soft)}
+.archive .subtitle{font-style:italic;text-transform:none;letter-spacing:.04em}
+.archive section,.archive-months{max-width:30rem;margin:3rem auto 0;text-align:left}
+.archive h2{margin:0 0 .85rem;font-size:1.45rem;font-weight:500;color:var(--gold-soft)}
+.archive-entries,.archive-months ul{list-style:none;margin:0;padding:0}
+.archive-entries li{border-bottom:1px solid var(--line-soft)}
+.archive-entries a{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem;
+  padding:.65rem .2rem}
+.archive-entries a:hover,.archive-entries a:focus-visible{background-color:var(--bg2)}
+.archive-entries time{font-size:.98em;color:var(--muted);text-align:right}
+.archive-months details{border-bottom:1px solid var(--line-soft);padding:.35rem 0}
+.archive-months summary{cursor:pointer;color:var(--ink-dim)}
+.archive-months ul{display:flex;flex-wrap:wrap;gap:.25rem 1rem;padding:.35rem 0 .65rem}
+.archive-months a[aria-current="page"]{color:var(--gold-soft);text-decoration:underline;text-underline-offset:.25em}
+.archive-note{margin:3rem auto 0;font-size:1.05rem;font-style:italic;color:var(--muted)}
+
 
 /* --- Qué es esto --- */
 .about{text-align:left}
@@ -144,7 +148,6 @@ footer.site p{margin:.5rem 0}
   .day-nav{grid-template-columns:1fr;gap:.5rem}
   .day-nav-btn.prev,.day-nav-btn.next{text-align:center}
   .day-nav-btn.today-btn{order:-1}
-  .archive-grid{grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:.5rem}
   .share-buttons a,.share-buttons button{flex:1 1 40%;text-align:center}
 }
 @media (max-width:380px){

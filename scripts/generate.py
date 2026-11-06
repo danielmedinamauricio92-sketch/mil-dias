@@ -81,10 +81,12 @@ def reading_minutes(n: int) -> int:
     return max(1, math.ceil(words / 200))
 
 
-def fmt_date_es(d: date) -> str:
-    months = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
               "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
-    return f"{d.day} de {months[d.month - 1]} de {d.year}"
+
+
+def fmt_date_es(d: date) -> str:
+    return f"{d.day} de {MONTHS_ES[d.month - 1]} de {d.year}"
 
 
 SHARE_JS = """<script>
@@ -229,6 +231,67 @@ def render_day(n):
     return title, desc, url, d
 
 
+def render_archive():
+    months = {}
+    for n in sorted((int(key) for key in DAYS if is_published(int(key))),
+                    key=lambda n: (day_date(n), n)):
+        day = day_date(n)
+        months.setdefault((day.year, day.month), []).append((n, day))
+
+    latest = next(reversed(months), None)
+    years = {}
+    for year, month in months:
+        years.setdefault(year, []).append(month)
+
+    for selected in [None, *(key for key in months if key != latest)]:
+        active = selected or latest
+        suffix = f"{selected[0]}-{selected[1]:02d}/" if selected else ""
+        prefix = "../../" if selected else "../"
+        archive_path = ROOT / "dias" / suffix
+        archive_path.mkdir(parents=True, exist_ok=True)
+        month_nav = ""
+        if len(months) > 1:
+            groups = []
+            for year, year_months in reversed(years.items()):
+                links = []
+                for month in year_months:
+                    key = (year, month)
+                    href = "" if key == latest else f"{year}-{month:02d}/"
+                    current = ' aria-current="page"' if key == active else ""
+                    links.append(f'<li><a href="{prefix}dias/{href}"{current}>'
+                                 f'{MONTHS_ES[month - 1].capitalize()}</a></li>')
+                opened = " open" if active and active[0] == year else ""
+                groups.append(f'<details{opened}><summary>{year}</summary>'
+                              f'<ul>{"".join(links)}</ul></details>')
+            month_nav = ('<nav class="archive-months" aria-label="Meses del archivo">'
+                         + "".join(groups) + '</nav>')
+        entries = ""
+        if active:
+            year, month = active
+            month_name = MONTHS_ES[month - 1]
+            items = []
+            for n, day in months[active]:
+                items.append(f'<li><a href="{prefix}dia/{n}/"><span>Día {roman(n)}</span>'
+                             f'<time datetime="{day.isoformat()}">{day.day} de {month_name}</time></a></li>')
+            entries = (f'<section aria-labelledby="archive-month"><h2 id="archive-month">'
+                       f'{month_name.capitalize()} de {year}</h2>'
+                       f'<ol class="archive-entries">{"".join(items)}</ol></section>')
+        archive = (head(title="Archivo — Mil días",
+                        description="Historias que encontraron su lugar en el tiempo.",
+                        url=f"{SITE_URL}/dias/{suffix}", prefix=prefix)
+                   .replace('assets/styles.css?v=2', 'assets/styles.css?v=3')
+                   + header(prefix, current="archivo")
+                   + f"""<main class="archive">
+<h1>Archivo</h1>
+<p class="subtitle">Historias que encontraron su lugar en el tiempo.</p>
+{month_nav}
+{entries}
+<p class="archive-note">El resto de las páginas todavía está por escribirse.</p>
+</main>"""
+                   + footer(prefix, "4"))
+        (archive_path / "index.html").write_text(archive, encoding="utf-8")
+
+
 def main():
     # --- Portada ---
     url = f"{SITE_URL}/"
@@ -250,36 +313,7 @@ def main():
              + footer("", "4"))
     (ROOT / "index.html").write_text(index, encoding="utf-8")
 
-    # --- Archivo ---
-    latest = max(int(k) for k, v in DAYS.items() if v.get("published"))
-    groups = []
-    jump = []
-    for start in range(1, 1001, 100):
-        end = min(start + 99, 1000)
-        jump.append(f'<a href="#dias-{roman(start)}">{roman(start)}–{roman(end)}</a>')
-        items = []
-        for n in range(start, end + 1):
-            if is_published(n):
-                cls = ' class="today"' if n == latest else ""
-                badge = ' · último publicado' if n == latest else ""
-                items.append(f'<a href="../dia/{n}/"{cls} aria-label="Día {roman(n)}{badge}">{roman(n)}</a>')
-            else:
-                items.append(f'<span aria-disabled="true">{roman(n)}</span>')
-        groups.append(f'<h2 id="dias-{roman(start)}">Días {roman(start)} – {roman(end)}</h2>\n'
-                      f'<div class="archive-grid">{"".join(items)}</div>')
-    archive = (head(title="Mil días — un archivo de recuerdos",
-                    description="Archivo de Mil días: los recuerdos, día por día.",
-                    url=f"{SITE_URL}/dias/", prefix="../")
-               + header("../", current="archivo")
-               + f"""<main class="archive">
-<h1>Archivo</h1>
-<p class="subtitle">Mil días, uno por uno.</p>
-<nav class="archive-jump" aria-label="Saltar a un grupo de días">{"".join(jump)}</nav>
-{chr(10).join(groups)}
-</main>"""
-               + footer("../", "4"))
-    (ROOT / "dias").mkdir(exist_ok=True)
-    (ROOT / "dias" / "index.html").write_text(archive, encoding="utf-8")
+    render_archive()
     # dias.html redirige a dias/ (compatibilidad con la ruta /dias del original)
     (ROOT / "dias.html").write_text(
         '<!DOCTYPE html>\n<html lang="es"><head><meta charset="utf-8">'

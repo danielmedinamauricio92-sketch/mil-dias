@@ -200,10 +200,13 @@ def render_day(n):
         desc = "Todavía no."
     body = []
     for b in blocks(n):
-        if b["type"] == "h2":
-            body.append(f"<h2>{esc(b['text'])}</h2>")
-        else:
-            body.append(f"<p>{esc(b['text'])}</p>")
+        if b.get("separator"):
+            body.append('<hr class="gold-rule">')
+        text = esc(b["text"])
+        if b.get("italic"):
+            text = f"<em>{text}</em>"
+        tag = "h2" if b["type"] == "h2" else "p"
+        body.append(f"<{tag}>{text}</{tag}>")
     entry_class = "entry" if published else "entry placeholder"
     meta = (f'<p class="meta"><span>{fmt_date_es(d)}</span></p>' if published
             else f'<p class="meta"><span>{fmt_date_es(d)}</span></p>')

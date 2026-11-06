@@ -1,17 +1,17 @@
-/* Mil días — reproducción estática. Fondo casi negro, crema, dorado, serif.
-   Paleta y voz visual del original; mejoras de lectura, contraste,
-   navegación, foco y responsive. Ningún texto del autor se toca aquí. */
+/* Mil días — edición literaria. Fondo cálido y oscuro, crema, dorado tenue, serif.
+   Aire, jerarquía en el título y la presentación, nada de contadores.
+   Los textos de los días no se tocan acá. */
 :root{
-  --bg:#0a0a09; --bg2:#111110; --ink:#f2ead8; --ink-dim:#d6cdb2;
-  --muted:#a39a83; --gold:#c9a227; --gold-soft:#d4af37;
+  --bg:#14110c; --bg2:#1b1712; --ink:#f0e7d2; --ink-dim:#d9cfb4;
+  --muted:#a89a7c; --gold:#c9a227; --gold-soft:#d9b64a;
   --line:rgba(201,162,39,.35); --line-soft:rgba(201,162,39,.16);
   --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --measure:42rem; /* ~68 caracteres por línea en el cuerpo */
+  --measure:40rem;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);
-  font-size:1.25rem;line-height:1.8;-webkit-font-smoothing:antialiased;
+  font-size:1.28rem;line-height:1.9;-webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility}
 ::selection{background:rgba(201,162,39,.35);color:#fff8e6}
 a{color:var(--ink);text-decoration:none;transition:color .18s ease,border-color .18s ease,background-color .18s ease}
@@ -21,12 +21,12 @@ img,svg{display:block}
 
 /* --- Cabecera --- */
 header.top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;
-  align-items:center;gap:1rem;padding:.85rem 1.5rem;
-  background:rgba(10,10,9,.94);backdrop-filter:blur(6px);
+  align-items:center;gap:1rem;padding:.9rem 1.5rem;
+  background:rgba(20,17,12,.94);backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line-soft)}
 .logo{display:flex;align-items:center;gap:.6rem;font-size:1rem;letter-spacing:.28em;
   text-transform:uppercase;color:var(--ink-dim);white-space:nowrap}
-.logo svg{width:26px;height:26px;flex:none}
+.logo svg{width:24px;height:24px;flex:none}
 .logo:hover{color:var(--gold-soft)}
 .nav-links{display:flex;align-items:center;gap:1.4rem}
 .nav-link{font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-dim);
@@ -35,27 +35,42 @@ header.top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-b
 .nav-link[aria-current="page"]{color:var(--gold-soft);border-bottom-color:var(--gold)}
 
 /* --- Estructura general --- */
-main{max-width:var(--measure);margin:0 auto;padding:3.5rem 1.5rem 8rem;text-align:center}
-h1{font-weight:500;font-size:clamp(2.5rem,7vw,4.2rem);line-height:1.05;
-  margin:1.2rem 0 .4rem;letter-spacing:.06em;text-transform:uppercase;
+main{max-width:var(--measure);margin:0 auto;padding:4rem 1.5rem 6rem;text-align:center;
+  animation:fadein .9s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-weight:500;font-size:clamp(2.8rem,9vw,4.6rem);line-height:1.05;
+  margin:1.4rem 0 .4rem;letter-spacing:.12em;text-transform:uppercase;
   text-wrap:balance}
 h2{font-weight:600;text-wrap:balance}
-.subtitle{color:var(--ink-dim);font-size:clamp(1.2rem,3.4vw,1.4rem);font-style:italic;margin:.2rem 0 0}
+.subtitle{color:var(--ink-dim);font-size:clamp(1.25rem,3.4vw,1.45rem);font-style:italic;margin:.2rem 0 0}
 .dates{color:var(--muted);font-size:.98rem;letter-spacing:.14em;text-transform:uppercase;margin:1.4rem 0 2.5rem}
-.gold-rule{width:56px;height:1px;background:var(--gold);border:0;margin:2.2rem auto}
-.hero-svg{width:min(220px,60vw);height:auto;margin:0 auto}
-.manifesto p,.entry p{margin:0 0 1.5rem}
-.manifesto p{font-size:clamp(1.18rem,2.6vw,1.32rem);line-height:1.85}
+.gold-rule{width:56px;height:1px;background:var(--gold);border:0;margin:2.6rem auto}
+.hero-svg{width:min(110px,28vw);height:auto;margin:0 auto;opacity:.92}
+.manifesto p,.entry p{margin:0 0 1.6rem}
+.manifesto p{font-size:clamp(1.2rem,2.6vw,1.34rem);line-height:1.9}
 .entry p:last-of-type{margin-bottom:0}
 .entry h2{font-size:clamp(1.5rem,4vw,1.75rem);letter-spacing:.04em;margin:2.8rem 0 1.2rem;color:var(--ink)}
 .day-kicker{color:var(--gold);letter-spacing:.35em;text-transform:uppercase;font-size:.92rem;margin-bottom:.6rem}
 .day-title{font-size:clamp(2rem,6vw,3rem);margin:.2rem 0 2rem}
-.meta{color:var(--muted);font-size:.98rem;letter-spacing:.08em;margin:0 0 2.2rem}
+.meta{color:var(--muted);font-size:.98rem;letter-spacing:.08em;margin:0 0 2.4rem}
 .meta span+span::before{content:" · "}
 .today-link{display:inline-block;margin-top:2.5rem;padding:.75rem 1.7rem;
   border:1px solid var(--gold);color:var(--gold-soft);letter-spacing:.22em;
   text-transform:uppercase;font-size:.92rem}
 .today-link:hover{background:rgba(201,162,39,.12);color:var(--gold-soft)}
+
+/* --- Portada --- */
+.cover{padding-top:4.5rem}
+.cover-text{margin:2.8rem 0 0}
+.cover-text p{font-size:clamp(1.25rem,3vw,1.45rem);line-height:1.95;margin:0 0 1.4rem}
+.signature{margin:3.2rem 0 0;display:flex;flex-direction:column;gap:.35rem}
+.signature-name{font-style:italic;font-size:1.4rem;letter-spacing:.06em;color:var(--ink)}
+.signature-date{color:var(--muted);font-size:.95rem;letter-spacing:.22em;text-transform:uppercase}
+.cover-actions{display:flex;justify-content:center;gap:.9rem;flex-wrap:wrap;margin-top:3rem}
+.cover-btn{display:inline-block;padding:.85rem 1.8rem;border:1px solid var(--gold);
+  color:var(--gold-soft);letter-spacing:.22em;text-transform:uppercase;font-size:.92rem}
+.cover-btn:hover{background:rgba(201,162,39,.12);color:var(--gold-soft)}
+.cover-btn.primary{background:rgba(201,162,39,.16);color:#f5e9c8}
 
 /* --- Navegación entre días --- */
 .day-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:.6rem;
@@ -94,50 +109,43 @@ h2{font-weight:600;text-wrap:balance}
 .archive-grid a{padding:.55rem .2rem;border:1px solid var(--line);color:var(--ink);font-size:1.05rem}
 .archive-grid a:hover{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,39,.08)}
 .archive-grid a.today{border-color:var(--gold);background:rgba(201,162,39,.14);color:var(--gold-soft);font-weight:600}
-.archive-grid span{padding:.55rem .2rem;color:#5b5545;font-size:1.05rem}
+.archive-grid span{padding:.55rem .2rem;color:#6b6250;font-size:1.05rem}
 .archive h2{font-size:1.35rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin:3rem 0 0;font-weight:500}
 .archive h2:target{color:var(--gold-soft)}
-.archive .group-note{color:var(--muted);font-size:.95rem;margin:.6rem 0 0}
 
 /* --- Qué es esto --- */
 .about{text-align:left}
 .about h1,.about .subtitle,.about .dates{text-align:center}
-.about p{margin:0 0 1.4rem;font-size:1.22rem;line-height:1.85}
-.about dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.2rem;
-  margin:2rem 0;padding:1.4rem 1.2rem;border:1px solid var(--line);border-radius:.4rem}
-.about dt{color:var(--gold-soft);letter-spacing:.18em;text-transform:uppercase;font-size:.88rem}
-.about dd{margin:0;color:var(--ink-dim)}
-.about ul{list-style:none;padding:0;margin:0 0 1.4rem;display:flex;flex-direction:column;gap:.7rem}
-.about ul a{border-bottom:1px solid var(--line);padding-bottom:.15rem}
-.about ul a:hover{border-bottom-color:var(--gold)}
+.about .manifesto{text-align:center}
+.about p{margin:0 0 1.4rem;font-size:1.22rem;line-height:1.9}
+.about .signature{text-align:center}
+.about-links{list-style:none;padding:0;margin:2.5rem 0 0;display:flex;flex-direction:column;gap:.7rem;text-align:center}
+.about-links a{border-bottom:1px solid var(--line);padding-bottom:.15rem}
+.about-links a:hover{border-bottom-color:var(--gold)}
 
-/* --- Pie y progreso --- */
-footer.site{max-width:var(--measure);margin:0 auto;padding:2.5rem 1.5rem 7.5rem;
-  text-align:center;color:var(--muted);font-size:1.02rem;border-top:1px solid rgba(201,162,39,.18)}
+/* --- Pie --- */
+footer.site{max-width:var(--measure);margin:0 auto;padding:2.5rem 1.5rem 3rem;
+  text-align:center;color:var(--muted);font-size:1rem;border-top:1px solid rgba(201,162,39,.18)}
 footer.site p{margin:.5rem 0}
-footer.site a{color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px}
-footer.site a:hover{color:var(--gold-soft)}
-.progress{position:fixed;left:0;right:0;bottom:0;z-index:10;background:rgba(10,10,9,.96);
-  border-top:1px solid rgba(201,162,39,.25);text-align:center;padding:.65rem 1rem .7rem;
-  font-size:.95rem;letter-spacing:.3em;color:var(--ink-dim)}
-.progress b{color:var(--gold-soft);font-weight:500}
-.progress-bar{height:2px;background:rgba(201,162,39,.2);margin:0 0 .55rem;overflow:hidden}
-.progress-fill{display:block;height:100%;background:var(--gold);transition:width .4s ease}
+.foot-title{letter-spacing:.18em;text-transform:uppercase;font-size:.92rem;color:var(--ink-dim)}
+.foot-links{font-size:.92rem;letter-spacing:.08em}
+.foot-links a{color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px}
+.foot-links a:hover{color:var(--gold-soft)}
 .notfound h1{font-size:clamp(2rem,6vw,3rem)}
 
 /* --- Responsive --- */
 @media (max-width:640px){
-  body{font-size:1.16rem;line-height:1.78}
-  main{padding:2.5rem 1.25rem 8rem}
+  body{font-size:1.18rem;line-height:1.85}
+  main{padding:3rem 1.25rem 5rem}
   header.top{padding:.75rem 1rem;flex-wrap:wrap}
   .nav-links{gap:1rem}
   .nav-link{letter-spacing:.2em}
+  .cover-actions{flex-direction:column;align-items:stretch}
+  .cover-btn{text-align:center}
   .day-nav{grid-template-columns:1fr;gap:.5rem}
   .day-nav-btn.prev,.day-nav-btn.next{text-align:center}
   .day-nav-btn.today-btn{order:-1}
   .archive-grid{grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:.5rem}
-  .about dl{grid-template-columns:1fr;gap:.1rem}
-  .about dt{margin-top:.6rem}
   .share-buttons a,.share-buttons button{flex:1 1 40%;text-align:center}
 }
 @media (max-width:380px){
@@ -147,5 +155,6 @@ footer.site a:hover{color:var(--gold-soft)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  main{animation:none}
   *{transition:none !important}
 }

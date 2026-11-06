@@ -95,6 +95,15 @@ HOURGLASS = """<svg viewBox="0 0 100 100" fill="none" stroke="#c9a227" stroke-wi
 <path d="M36 84 L64 84 L58 70 L50 74 L42 70 Z" fill="#c9a227" stroke="none"/>
 </svg>"""
 
+COVER = [
+    "Hay recuerdos que desaparecen con el tiempo.",
+    "Otros permanecen, incluso cuando intentamos olvidarlos.",
+    "Durante mil días intentaré darles un lugar a esas historias que alguna vez fueron parte de mi vida.",
+    "Algunas tendrán nombres. Otras, apenas silencios.",
+    "No todas las historias necesitan un final.",
+    "Algunas solo necesitan ser contadas.",
+]
+
 SHARE_JS = """<script>
 function copyLink(btn){const u=btn.dataset.url;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>{btn.textContent='Enlace copiado ✓';setTimeout(()=>btn.textContent='Copiar enlace',2500);}).catch(()=>{fallbackCopy(u,btn);});}else{fallbackCopy(u,btn);}}
 function fallbackCopy(u,btn){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');btn.textContent='Enlace copiado ✓';}catch(e){btn.textContent=u;}document.body.removeChild(t);setTimeout(()=>btn.textContent='Copiar enlace',2500);}
@@ -109,6 +118,7 @@ def head(*, title, description, url, prefix, og_type="website"):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
+<meta name="author" content="{esc(SITE['author'])}">
 <link rel="canonical" href="{esc(url)}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Mil días">
@@ -148,20 +158,11 @@ def header(prefix, current=""):
 """
 
 
-def footer(prefix, progress):
-    try:
-        n = int(progress)
-    except (TypeError, ValueError):
-        n = 0
-    pct = round(n / 1000 * 100, 1)
+def footer(prefix, progress=None):
     return f"""<footer class="site">
-<p>Mil días — Un archivo de recuerdos</p>
-<p><a href="{prefix}acerca/">Qué es esto</a></p>
+<p class="foot-title">Mil días · {esc(SITE['author'])}</p>
+<p class="foot-links"><a href="{prefix}acerca/">Qué es esto</a> · <a href="{prefix}dias/">Archivo</a> · <a href="{SITE_URL}/feed.xml">RSS</a> · <a href="{esc(SITE['portfolio'])}">Portfolio</a> · <a href="{esc(SITE['github'])}">GitHub</a></p>
 </footer>
-<div class="progress" role="status" aria-label="Progreso del archivo: día {n} de 1000">
-<div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:{pct}%"></span></div>
-<b>{progress}</b> / 1000 · {pct:g} %
-</div>
 {SHARE_JS}
 </body>
 </html>
@@ -221,9 +222,7 @@ def render_day(n):
         else:
             body.append(f"<p>{esc(b['text'])}</p>")
     entry_class = "entry" if published else "entry placeholder"
-    meta = (f'<p class="meta"><span>{fmt_date_es(d)}</span>'
-            f'<span>{reading_minutes(n)} min de lectura</span>'
-            f'</p>' if published
+    meta = (f'<p class="meta"><span>{fmt_date_es(d)}</span></p>' if published
             else f'<p class="meta"><span>{fmt_date_es(d)}</span></p>')
     share = share_block(url, title) if published else ""
     article = f"""<main>
@@ -246,22 +245,27 @@ def render_day(n):
 
 def main():
     # --- Portada ---
+    latest = max(int(k) for k, v in DAYS.items() if v.get("published"))
     url = f"{SITE_URL}/"
-    desc = MANIFESTO[0] + " " + MANIFESTO[1]
+    desc = COVER[0] + " " + COVER[1]
     manifesto_html = "\n".join(f"<p>{esc(p)}</p>" for p in MANIFESTO)
+    cover_html = "\n".join(f"<p>{esc(p)}</p>" for p in COVER)
     index = (head(title="Mil días — Un archivo de recuerdos", description=desc,
                   url=url, prefix="")
              + header("")
-             + f"""<main>
+             + f"""<main class="cover">
 {HOURGLASS.replace('viewBox="0 0 100 100"', 'viewBox="0 0 100 100" class="hero-svg"')}
 <h1>Mil días</h1>
 <p class="subtitle">{esc(SITE['subtitle'])}</p>
-<p class="dates">{esc(SITE['start_label'])}</p>
 <hr class="gold-rule">
-<div class="manifesto">
-{manifesto_html}
+<div class="cover-text">
+{cover_html}
 </div>
-<p><a class="today-link" href="dia/4/">Hoy — Día IV de 1000</a></p>
+<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span><span class="signature-date">3 de noviembre de 2026</span></p>
+<nav class="cover-actions" aria-label="Empezar a leer">
+<a class="cover-btn primary" href="dia/{latest}/">Comenzar a leer</a>
+<a class="cover-btn" href="dias/">Explorar los recuerdos</a>
+</nav>
 </main>"""
              + footer("", "4"))
     (ROOT / "index.html").write_text(index, encoding="utf-8")
@@ -281,19 +285,15 @@ def main():
                 items.append(f'<a href="../dia/{n}/"{cls} aria-label="Día {roman(n)}{badge}">{roman(n)}</a>')
             else:
                 items.append(f'<span aria-disabled="true">{roman(n)}</span>')
-        published_in_group = sum(1 for n in range(start, end + 1) if is_published(n))
         groups.append(f'<h2 id="dias-{roman(start)}">Días {roman(start)} – {roman(end)}</h2>\n'
-                      f'<p class="group-note">{published_in_group} publicado'
-                      f'{"s" if published_in_group != 1 else ""} de 100</p>\n'
                       f'<div class="archive-grid">{"".join(items)}</div>')
     archive = (head(title="Mil días — un archivo de recuerdos",
-                    description="Archivo de Mil días: mil días de recuerdos, del 3 de noviembre de 2026 al 29 de julio de 2029. Solo los días I a IV están publicados.",
+                    description="Archivo de Mil días: los recuerdos, día por día.",
                     url=f"{SITE_URL}/dias/", prefix="../")
                + header("../", current="archivo")
                + f"""<main class="archive">
 <h1>Archivo</h1>
 <p class="subtitle">Mil días, uno por uno.</p>
-<p class="meta"><span>4 de 1000 publicados</span><span>Del 3 de noviembre de 2026 al 29 de julio de 2029</span></p>
 <nav class="archive-jump" aria-label="Saltar a un grupo de días">{"".join(jump)}</nav>
 {chr(10).join(groups)}
 </main>"""
@@ -311,29 +311,21 @@ def main():
 
     # --- Qué es esto (solo información verificada del proyecto) ---
     about = (head(title="Qué es esto — Mil días",
-                  description="Mil días es un archivo de recuerdos: mil días, del 3 de noviembre de 2026 al 29 de julio de 2029.",
+                  description="Hay recuerdos que desaparecen con el tiempo. Otros permanecen, incluso cuando intentamos olvidarlos.",
                   url=f"{SITE_URL}/acerca/", prefix="../")
              + header("../", current="acerca")
              + f"""<main class="about">
 <h1>Qué es esto</h1>
 <p class="subtitle">Un archivo de recuerdos</p>
-<p class="dates">{esc(SITE['start_label'])}</p>
 <hr class="gold-rule">
-<p>Mil días es un archivo de recuerdos: mil días, mil textos, publicados
-uno por día.</p>
-<dl>
-<dt>Inicio</dt><dd>3 de noviembre de 2026</dd>
-<dt>Fin</dt><dd>29 de julio de 2029</dd>
-<dt>Duración</dt><dd>1000 días</dd>
-<dt>Publicados</dt><dd>4 de 1000 (días I a IV)</dd>
-</dl>
-<p>Los textos se publican tal como los escribe el autor: lo que se escribe
-lo decide él. Acá no hay comentarios ni suscripción: para seguir el archivo,
-podés visitarlo cada día o suscribirte al feed RSS.</p>
-<ul>
+<div class="manifesto">
+{manifesto_html}
+</div>
+<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span><span class="signature-date">3 de noviembre de 2026</span></p>
+<ul class="about-links">
 <li><a href="../">Leer desde el inicio — Día I</a></li>
 <li><a href="../dias/">Ver el archivo completo</a></li>
-<li><a href="../feed.xml">Feed RSS de los días publicados</a></li>
+<li><a href="../feed.xml">Feed RSS</a></li>
 </ul>
 </main>"""
              + footer("../", "4"))
@@ -375,7 +367,7 @@ podés visitarlo cada día o suscribirte al feed RSS.</p>
             '<rss version="2.0">\n<channel>\n'
             '  <title>Mil días</title>\n'
             f'  <link>{SITE_URL}/</link>\n'
-            '  <description>Un archivo de recuerdos</description>\n'
+            '  <description>Un archivo de recuerdos — ' + esc(SITE['author']) + '</description>\n'
             '  <language>es-AR</language>\n'
             + "\n".join(items)
             + "\n</channel>\n</rss>\n")

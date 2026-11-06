@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mil días — Un archivo de recuerdos</title>
-<meta name="description" content="Hay recuerdos que no desaparecen. No porque sigamos viviendo en ellos, sino porque alguna parte de nosotros quedó ahí.">
+<meta name="description" content="Hay recuerdos que desaparecen con el tiempo. Otros permanecen, incluso cuando intentamos olvidarlos.">
+<meta name="author" content="Nadir Vesper">
 <link rel="canonical" href="https://mil-dias-five.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mil días">
 <meta property="og:title" content="Mil días — Un archivo de recuerdos">
-<meta property="og:description" content="Hay recuerdos que no desaparecen. No porque sigamos viviendo en ellos, sino porque alguna parte de nosotros quedó ahí.">
+<meta property="og:description" content="Hay recuerdos que desaparecen con el tiempo. Otros permanecen, incluso cuando intentamos olvidarlos.">
 <meta property="og:url" content="https://mil-dias-five.vercel.app/">
 <meta property="og:image" content="https://mil-dias-five.vercel.app/assets/og-mil-dias.png">
 <meta property="og:image:width" content="1200">
@@ -17,7 +18,7 @@
 <meta property="og:image:alt" content="Mil días — Un archivo de recuerdos">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mil días — Un archivo de recuerdos">
-<meta name="twitter:description" content="Hay recuerdos que no desaparecen. No porque sigamos viviendo en ellos, sino porque alguna parte de nosotros quedó ahí.">
+<meta name="twitter:description" content="Hay recuerdos que desaparecen con el tiempo. Otros permanecen, incluso cuando intentamos olvidarlos.">
 <meta name="twitter:image" content="https://mil-dias-five.vercel.app/assets/og-mil-dias.png">
 <meta name="theme-color" content="#0a0a09">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -41,7 +42,7 @@
 <a class="nav-link" href="dias/">Archivo</a>
 </nav>
 </header>
-<main>
+<main class="cover">
 <svg viewBox="0 0 100 100" class="hero-svg" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <path d="M22 12 H78 M22 88 H78" stroke-width="4"/>
 <path d="M28 14 C28 34 46 40 46 50 C46 60 28 66 28 86 L72 86 C72 66 54 60 54 50 C54 40 72 34 72 14 Z"/>
@@ -51,34 +52,24 @@
 </svg>
 <h1>Mil días</h1>
 <p class="subtitle">Un archivo de recuerdos</p>
-<p class="dates">Del 3 de noviembre de 2026 al 29 de julio de 2029</p>
 <hr class="gold-rule">
-<div class="manifesto">
-<p>Hay recuerdos que no desaparecen.</p>
-<p>No porque sigamos viviendo en ellos, sino porque alguna parte de nosotros quedó ahí.</p>
-<p>Una habitación, una conversación, una canción, una persona, una tarde cualquiera.</p>
-<p>A veces pasan años y esas cosas siguen apareciendo sin pedir permiso.</p>
-<p>No siempre sabemos qué hacer con ellas.</p>
-<p>Quizás no haya nada que hacer.</p>
-<p>Quizás algunas simplemente necesitan ser contadas una última vez antes de poder ocupar otro lugar.</p>
-<p>Estos mil días nacen de ahí.</p>
-<p>De todo lo que quedó guardado.</p>
-<p>De lo que fue importante y de lo que quizás solamente lo fue para nosotros.</p>
-<p>De las personas que pasaron por nuestra vida y de las que dejaron algo atrás sin siquiera saberlo.</p>
-<p>No sabemos dónde van a terminar estas historias.</p>
-<p>Tampoco hace falta saberlo.</p>
-<p>Solo sabemos que, durante mil días, algunas cosas van a salir de acá.</p>
-<p>Y después veremos hasta dónde llegan.</p>
+<div class="cover-text">
+<p>Hay recuerdos que desaparecen con el tiempo.</p>
+<p>Otros permanecen, incluso cuando intentamos olvidarlos.</p>
+<p>Durante mil días intentaré darles un lugar a esas historias que alguna vez fueron parte de mi vida.</p>
+<p>Algunas tendrán nombres. Otras, apenas silencios.</p>
+<p>No todas las historias necesitan un final.</p>
+<p>Algunas solo necesitan ser contadas.</p>
 </div>
-<p><a class="today-link" href="dia/4/">Hoy — Día IV de 1000</a></p>
+<p class="signature"><span class="signature-name">Nadir Vesper</span><span class="signature-date">3 de noviembre de 2026</span></p>
+<nav class="cover-actions" aria-label="Empezar a leer">
+<a class="cover-btn primary" href="dia/4/">Comenzar a leer</a>
+<a class="cover-btn" href="dias/">Explorar los recuerdos</a>
+</nav>
 </main><footer class="site">
-<p>Mil días — Un archivo de recuerdos</p>
-<p><a href="acerca/">Qué es esto</a></p>
+<p class="foot-title">Mil días · Nadir Vesper</p>
+<p class="foot-links"><a href="acerca/">Qué es esto</a> · <a href="dias/">Archivo</a> · <a href="https://mil-dias-five.vercel.app/feed.xml">RSS</a> · <a href="https://daniel-medina-portfolio.vercel.app">Portfolio</a> · <a href="https://github.com/danielmedinamauricio92-sketch">GitHub</a></p>
 </footer>
-<div class="progress" role="status" aria-label="Progreso del archivo: día 4 de 1000">
-<div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:0.4%"></span></div>
-<b>4</b> / 1000 · 0.4 %
-</div>
 <script>
 function copyLink(btn){const u=btn.dataset.url;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>{btn.textContent='Enlace copiado ✓';setTimeout(()=>btn.textContent='Copiar enlace',2500);}).catch(()=>{fallbackCopy(u,btn);});}else{fallbackCopy(u,btn);}}
 function fallbackCopy(u,btn){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');btn.textContent='Enlace copiado ✓';}catch(e){btn.textContent=u;}document.body.removeChild(t);setTimeout(()=>btn.textContent='Copiar enlace',2500);}

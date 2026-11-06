@@ -8,9 +8,10 @@ sin base de datos, sin login.
 
 ## Qué hay acá
 
-- `index.html` — portada con el manifiesto completo.
-- `acerca/` — "Qué es esto": datos del proyecto (rango de fechas,
-  1000 días).
+- `index.html` — portada literaria: presentación, firma de Nadir Vesper,
+  botones para comenzar a leer o explorar los recuerdos.
+- `acerca/` — "Qué es esto": el manifiesto completo del proyecto.
+
 - `dias/` — archivo con los 1000 días en números romanos (I–M). Solo I–IV
   son enlaces; el resto está en gris, no clicable, agrupado por centenas,
   con saltos a cada grupo y el último día publicado destacado.
@@ -38,12 +39,12 @@ Sin tocar la voz ni los textos:
 - Cada día tiene título propio en `<title>` (su primera frase temática),
   meta description, Open Graph y Twitter Card con imagen para compartir.
 - Fecha real de publicación (día 1 = 2026-11-03, día 2 = 2026-11-04,
-  día 3 = 2026-11-05, día 4 = 2026-11-06) y tiempo de lectura.
+  día 3 = 2026-11-05, día 4 = 2026-11-06).
 - Botones para compartir: copiar enlace, WhatsApp, X y LinkedIn.
 - Archivo completo hasta el día 1000 (el original solo llegaba al C),
   con saltos por centenas y el último día publicado destacado.
 - Barra de progreso con porcentaje, navegación anterior/siguiente con
-  botones y estados claros, y "Qué es esto" con los datos del proyecto.
+  botones y estados claros.
 - Sitemap, RSS y 404 en español, que el original no tenía.
 
 ## Cómo agregar un día nuevo
@@ -101,3 +102,4 @@ Para Vercel, en cambio: importar el repo, sin comando de build
 
 Los textos de los días 1–4 son los ya publicados al 6 de noviembre
 de 2026. Este repo es la versión propia y editable del proyecto.
+El autor firma como Nadir Vesper.

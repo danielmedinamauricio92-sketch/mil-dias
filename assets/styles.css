@@ -1,0 +1,53 @@
+/* Mil días — reproducción estática. Fondo casi negro, crema, dorado, serif. */
+:root{
+  --bg:#0a0a09; --bg2:#111110; --ink:#f2ead8; --ink-dim:#cfc4a8;
+  --muted:#8a8270; --gold:#c9a227; --gold-soft:#d4af37; --line:rgba(201,162,39,.35);
+  --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.25rem;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--gold-soft)}
+header.top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:rgba(10,10,9,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(201,162,39,.15)}
+.logo{display:flex;align-items:center;gap:.6rem;font-size:1rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-dim)}
+.logo svg{width:26px;height:26px;flex:none}
+.nav-archivo{font-size:.85rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-dim)}
+.nav-archivo:hover{color:var(--gold-soft)}
+main{max-width:680px;margin:0 auto;padding:3.5rem 1.5rem 8rem;text-align:center}
+h1{font-weight:500;font-size:clamp(2.6rem,7vw,4.2rem);line-height:1.05;margin:1.2rem 0 .4rem;letter-spacing:.06em;text-transform:uppercase}
+.subtitle{color:var(--ink-dim);font-size:1.35rem;font-style:italic;margin:.2rem 0 0}
+.dates{color:var(--muted);font-size:1rem;letter-spacing:.14em;text-transform:uppercase;margin:1.4rem 0 2.5rem}
+.gold-rule{width:56px;height:1px;background:var(--gold);border:0;margin:2.2rem auto}
+.hero-svg{width:min(220px,60vw);height:auto;margin:0 auto;display:block}
+.manifesto p, .entry p{margin:0 0 1.35rem}
+.entry p:last-of-type{margin-bottom:0}
+.entry h2{font-weight:600;font-size:1.7rem;letter-spacing:.04em;margin:2.6rem 0 1.2rem;color:var(--ink)}
+.day-kicker{color:var(--gold);letter-spacing:.35em;text-transform:uppercase;font-size:.95rem;margin-bottom:.6rem}
+.day-title{font-size:clamp(2rem,6vw,3rem);margin:.2rem 0 2rem}
+.meta{color:var(--muted);font-size:1rem;letter-spacing:.08em;margin:0 0 2.2rem}
+.meta span+span::before{content:" · "}
+.today-link{display:inline-block;margin-top:2.5rem;padding:.7rem 1.6rem;border:1px solid var(--gold);color:var(--gold-soft);letter-spacing:.22em;text-transform:uppercase;font-size:.95rem}
+.today-link:hover{background:rgba(201,162,39,.12);color:var(--gold-soft)}
+.day-nav{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin:3.5rem 0 1rem;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);flex-wrap:wrap}
+.day-nav a{color:var(--ink-dim)}
+.day-nav a:hover{color:var(--gold-soft)}
+.share{margin:2.5rem 0 0;padding-top:1.8rem;border-top:1px solid rgba(201,162,39,.2)}
+.share p{color:var(--muted);letter-spacing:.25em;text-transform:uppercase;font-size:.85rem;margin:0 0 1rem}
+.share-buttons{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
+.share-buttons a,.share-buttons button{font-family:var(--serif);font-size:1rem;padding:.5rem 1rem;border:1px solid rgba(201,162,39,.45);background:transparent;color:var(--ink);cursor:pointer;border-radius:999px}
+.share-buttons a:hover,.share-buttons button:hover{border-color:var(--gold);color:var(--gold-soft)}
+.share-note{color:var(--muted);font-size:.95rem;min-height:1.4em;margin-top:.7rem}
+.placeholder{font-size:1.6rem;font-style:italic;color:var(--ink-dim);padding:4rem 0}
+.archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:.7rem;margin-top:2rem}
+.archive-grid a{padding:.55rem .2rem;border:1px solid rgba(201,162,39,.35);color:var(--ink);font-size:1.05rem}
+.archive-grid a:hover{border-color:var(--gold);color:var(--gold-soft)}
+.archive-grid span{padding:.55rem .2rem;color:#55503f;font-size:1.05rem}
+.archive h2{font-size:1.4rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin:3rem 0 0;font-weight:500}
+footer.site{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 7rem;text-align:center;color:var(--muted);font-size:1.05rem;border-top:1px solid rgba(201,162,39,.18)}
+footer.site a{color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px}
+footer.site a:hover{color:var(--gold-soft)}
+.progress{position:fixed;left:0;right:0;bottom:0;z-index:10;background:rgba(10,10,9,.94);border-top:1px solid rgba(201,162,39,.25);text-align:center;padding:.7rem;font-size:1rem;letter-spacing:.3em;color:var(--ink-dim)}
+.progress b{color:var(--gold-soft);font-weight:500}
+.notfound h1{font-size:3rem}
+@media (max-width:560px){body{font-size:1.15rem}main{padding-top:2.5rem}}

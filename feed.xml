@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>Mil días</title>
+  <link>https://danielmedinamauricio92-sketch.github.io/mil-dias/</link>
+  <description>Un archivo de recuerdos — Mauricio Daniel Medina</description>
+  <language>es-AR</language>
+    <item>
+      <title>Aquella noche — Día I — Mil días</title>
+      <link>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/1/</link>
+      <guid>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/1/</guid>
+      <pubDate>Tue, 03 Nov 2026 12:00:00 -0300</pubDate>
+      <description>Estamos viajando en el tiempo.</description>
+    </item>
+    <item>
+      <title>Hay cosas que uno cree que van a romperlo para siempre. — Día II — Mil días</title>
+      <link>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/2/</link>
+      <guid>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/2/</guid>
+      <pubDate>Wed, 04 Nov 2026 12:00:00 -0300</pubDate>
+      <description>Hay cosas que uno cree que van a romperlo para siempre.</description>
+    </item>
+    <item>
+      <title>Antes de empezar — Día III — Mil días</title>
+      <link>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/3/</link>
+      <guid>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/3/</guid>
+      <pubDate>Thu, 05 Nov 2026 12:00:00 -0300</pubDate>
+      <description>No todos los días dejan un recuerdo.</description>
+    </item>
+    <item>
+      <title>Hay días en los que uno no quiere cambiar nada. — Día IV — Mil días</title>
+      <link>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/4/</link>
+      <guid>https://danielmedinamauricio92-sketch.github.io/mil-dias/dia/4/</guid>
+      <pubDate>Fri, 06 Nov 2026 12:00:00 -0300</pubDate>
+      <description>Hay días en los que uno no quiere cambiar nada.</description>
+    </item>
+</channel>
+</rss>

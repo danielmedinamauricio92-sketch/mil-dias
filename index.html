@@ -20,6 +20,8 @@
 <meta name="twitter:title" content="Mil días — Un archivo de recuerdos">
 <meta name="twitter:description" content="Hay recuerdos que no desaparecen. No porque sigamos viviendo en ellos, sino porque alguna parte de nosotros quedó ahí.">
 <meta name="twitter:image" content="https://danielmedinamauricio92-sketch.github.io/mil-dias/assets/og-mil-dias.png">
+<meta name="theme-color" content="#0a0a09">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Mil días" href="https://danielmedinamauricio92-sketch.github.io/mil-dias/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +37,10 @@
 <circle cx="50" cy="62" r="5" fill="#c9a227" stroke="none"/>
 <path d="M45 72 L55 72 L50 82 Z" fill="#c9a227" stroke="none"/>
 </svg><span>Mil días</span></a>
-<a class="nav-archivo" href="dias/">Archivo</a>
+<nav class="nav-links" aria-label="Navegación principal">
+<a class="nav-link" href="acerca/">Qué es esto</a>
+<a class="nav-link" href="dias/">Archivo</a>
+</nav>
 </header>
 <main>
 <svg viewBox="0 0 100 100" class="hero-svg" fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" aria-hidden="true">
@@ -69,10 +74,13 @@
 <p><a class="today-link" href="dia/4/">Hoy — Día IV de 1000</a></p>
 </main><footer class="site">
 <p>Mil días — Un archivo de recuerdos · por Mauricio Daniel Medina</p>
-<p><a href="https://daniel-medina-portfolio.vercel.app">Portfolio</a> · <a href="https://github.com/danielmedinamauricio92-sketch">GitHub</a></p>
+<p><a href="acerca/">Qué es esto</a> · <a href="https://daniel-medina-portfolio.vercel.app">Portfolio</a> · <a href="https://github.com/danielmedinamauricio92-sketch">GitHub</a></p>
 <p>Reproducción estática hecha por el autor a partir de <a href="https://mil-dias.lovable.app/">mil-dias.lovable.app</a>, sin Lovable.</p>
 </footer>
-<div class="progress"><b>4</b> / 1000</div>
+<div class="progress" role="status" aria-label="Progreso del archivo: día 4 de 1000">
+<div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:0.4%"></span></div>
+<b>4</b> / 1000 · 0.4 %
+</div>
 <script>
 function copyLink(btn){const u=btn.dataset.url;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>{btn.textContent='Enlace copiado ✓';setTimeout(()=>btn.textContent='Copiar enlace',2500);}).catch(()=>{fallbackCopy(u,btn);});}else{fallbackCopy(u,btn);}}
 function fallbackCopy(u,btn){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');btn.textContent='Enlace copiado ✓';}catch(e){btn.textContent=u;}document.body.removeChild(t);setTimeout(()=>btn.textContent='Copiar enlace',2500);}

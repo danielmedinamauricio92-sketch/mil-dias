@@ -10,8 +10,11 @@ HTML, CSS y JavaScript vanilla, sin framework, sin base de datos, sin login.
 ## Qué hay acá
 
 - `index.html` — portada con el manifiesto completo.
+- `acerca/` — "Qué es esto": solo datos verificados del proyecto
+  (autor, rango de fechas, 1000 días, links a portfolio y GitHub).
 - `dias/` — archivo con los 1000 días en números romanos (I–M). Solo I–IV
-  son enlaces; el resto está en gris, no clicable, agrupado por centenas.
+  son enlaces; el resto está en gris, no clicable, agrupado por centenas,
+  con saltos a cada grupo y el último día publicado destacado.
 - `dia/<n>/` — una página por día, del 1 al 1000.
   - Días 1–4: texto completo, transcrito de mil-dias.lovable.app.
   - Días 5–999: «Este día aún no llegó.»
@@ -20,8 +23,10 @@ HTML, CSS y JavaScript vanilla, sin framework, sin base de datos, sin login.
 - `scripts/generate.py` — genera todas las páginas, el sitemap y el feed
   a partir de `content/days.json`.
 - `assets/` — `styles.css`, `og-mil-dias.png` y `og-mil-dias.svg`
-  (reloj de arena dorado sobre negro).
-- `sitemap.xml` — portada + archivo + las 1000 rutas de día.
+  (reloj de arena dorado sobre negro), `favicon.svg` (reloj de arena).
+- `vercel.json` — sitio estático sin build: rewrites para `/dias`,
+  `/dia/N` y `/acerca`, caché larga solo para `assets/`.
+- `sitemap.xml` — portada + archivo + "Qué es esto" + las 1000 rutas de día.
 - `feed.xml` — RSS con los 4 días publicados.
 - `robots.txt` — con línea `Sitemap:`.
 - `404.html` — página no encontrada, en español.
@@ -37,7 +42,10 @@ Sin tocar la voz ni los textos:
   día 3 = 2026-11-05, día 4 = 2026-11-06), autor y tiempo de lectura.
 - Botones para compartir: copiar enlace, WhatsApp, X y LinkedIn.
 - Footer con autor, portfolio y GitHub.
-- Archivo completo hasta el día 1000 (el original solo llegaba al C).
+- Archivo completo hasta el día 1000 (el original solo llegaba al C),
+  con saltos por centenas y el último día publicado destacado.
+- Barra de progreso con porcentaje, navegación anterior/siguiente con
+  botones y estados claros, y "Qué es esto" con los datos del proyecto.
 - Sitemap, RSS y 404 en español, que el original no tenía.
 
 ## Cómo agregar un día nuevo

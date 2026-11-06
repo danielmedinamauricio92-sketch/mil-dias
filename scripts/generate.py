@@ -4,8 +4,8 @@
 Fuente única de contenido: content/days.json (días 1-4 transcritos de
 https://mil-dias.lovable.app/ vía browser.open; días 5-1000, placeholder).
 Uso:  python3 scripts/generate.py
-Salida: index.html, dias/index.html, dia/<n>/index.html, sitemap.xml,
-        feed.xml, robots.txt, 404.html
+Salida: index.html, dias/index.html, acerca/index.html, dia/<n>/index.html,
+        sitemap.xml, feed.xml, robots.txt, 404.html, vercel.json
 Cambiar SITE_URL por la URL real de despliegue antes de publicar.
 """
 import html
@@ -124,6 +124,8 @@ def head(*, title, description, url, prefix, og_type="website"):
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(description)}">
 <meta name="twitter:image" content="{SITE_URL}/assets/og-mil-dias.png">
+<meta name="theme-color" content="#0a0a09">
+<link rel="icon" type="image/svg+xml" href="{prefix}assets/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Mil días" href="{SITE_URL}/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,22 +135,35 @@ def head(*, title, description, url, prefix, og_type="website"):
 """
 
 
-def header(prefix):
+def header(prefix, current=""):
+    def cur(name):
+        return ' aria-current="page"' if current == name else ""
     return f"""<body>
 <header class="top">
 <a class="logo" href="{prefix}index.html" aria-label="Inicio — Mil días">{HOURGLASS}<span>Mil días</span></a>
-<a class="nav-archivo" href="{prefix}dias/">Archivo</a>
+<nav class="nav-links" aria-label="Navegación principal">
+<a class="nav-link" href="{prefix}acerca/"{cur("acerca")}>Qué es esto</a>
+<a class="nav-link" href="{prefix}dias/"{cur("archivo")}>Archivo</a>
+</nav>
 </header>
 """
 
 
 def footer(prefix, progress):
+    try:
+        n = int(progress)
+    except (TypeError, ValueError):
+        n = 0
+    pct = round(n / 1000 * 100, 1)
     return f"""<footer class="site">
 <p>Mil días — Un archivo de recuerdos · por {esc(SITE['author'])}</p>
-<p><a href="{esc(SITE['portfolio'])}">Portfolio</a> · <a href="{esc(SITE['github'])}">GitHub</a></p>
+<p><a href="{prefix}acerca/">Qué es esto</a> · <a href="{esc(SITE['portfolio'])}">Portfolio</a> · <a href="{esc(SITE['github'])}">GitHub</a></p>
 <p>Reproducción estática hecha por el autor a partir de <a href="{esc(SITE['source'])}">mil-dias.lovable.app</a>, sin Lovable.</p>
 </footer>
-<div class="progress"><b>{progress}</b> / 1000</div>
+<div class="progress" role="status" aria-label="Progreso del archivo: día {n} de 1000">
+<div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:{pct}%"></span></div>
+<b>{progress}</b> / 1000 · {pct:g} %
+</div>
 {SHARE_JS}
 </body>
 </html>
@@ -171,11 +186,23 @@ def share_block(url, title):
 
 
 def day_nav(n, prefix):
-    prev_link = (f'<a href="{prefix}dia/{n-1}/">‹ Día anterior</a>' if n > 1
-                 else '<span></span>')
-    next_link = (f'<a href="{prefix}dia/{n+1}/">Día siguiente ›</a>' if n < 1000
-                 else '<span></span>')
-    return f"""<nav class="day-nav">{prev_link}<a href="{prefix}index.html">Hoy</a>{next_link}</nav>"""
+    if n > 1:
+        prev_link = (f'<a class="day-nav-btn prev" href="{prefix}dia/{n-1}/"'
+                     f' aria-label="Ir al día {roman(n-1)}">‹ Día anterior'
+                     f'<small>Día {roman(n-1)}</small></a>')
+    else:
+        prev_link = ('<span class="day-nav-btn prev disabled" aria-disabled="true">'
+                     '‹ Día anterior<small>Es el primer día</small></span>')
+    if n < 1000:
+        next_link = (f'<a class="day-nav-btn next" href="{prefix}dia/{n+1}/"'
+                     f' aria-label="Ir al día {roman(n+1)}">Día siguiente ›'
+                     f'<small>Día {roman(n+1)}</small></a>')
+    else:
+        next_link = ('<span class="day-nav-btn next disabled" aria-disabled="true">'
+                     'Día siguiente ›<small>Es el último día</small></span>')
+    return (f'<nav class="day-nav" aria-label="Navegación entre días">{prev_link}'
+            f'<a class="day-nav-btn today-btn" href="{prefix}index.html">Hoy'
+            f'<small>Portada</small></a>{next_link}</nav>')
 
 
 def render_day(n):
@@ -242,25 +269,34 @@ def main():
     (ROOT / "index.html").write_text(index, encoding="utf-8")
 
     # --- Archivo ---
+    latest = max(int(k) for k, v in DAYS.items() if v.get("published"))
     groups = []
+    jump = []
     for start in range(1, 1001, 100):
         end = min(start + 99, 1000)
+        jump.append(f'<a href="#dias-{roman(start)}">{roman(start)}–{roman(end)}</a>')
         items = []
         for n in range(start, end + 1):
             if is_published(n):
-                items.append(f'<a href="../dia/{n}/">{roman(n)}</a>')
+                cls = ' class="today"' if n == latest else ""
+                badge = ' · último publicado' if n == latest else ""
+                items.append(f'<a href="../dia/{n}/"{cls} aria-label="Día {roman(n)}{badge}">{roman(n)}</a>')
             else:
                 items.append(f'<span aria-disabled="true">{roman(n)}</span>')
-        groups.append(f"<h2>Días {roman(start)} – {roman(end)}</h2>\n"
+        published_in_group = sum(1 for n in range(start, end + 1) if is_published(n))
+        groups.append(f'<h2 id="dias-{roman(start)}">Días {roman(start)} – {roman(end)}</h2>\n'
+                      f'<p class="group-note">{published_in_group} publicado'
+                      f'{"s" if published_in_group != 1 else ""} de 100</p>\n'
                       f'<div class="archive-grid">{"".join(items)}</div>')
     archive = (head(title="Mil días — un archivo de recuerdos",
                     description="Archivo de Mil días: mil días de recuerdos, del 3 de noviembre de 2026 al 29 de julio de 2029. Solo los días I a IV están publicados.",
                     url=f"{SITE_URL}/dias/", prefix="../")
-               + header("../")
+               + header("../", current="archivo")
                + f"""<main class="archive">
 <h1>Archivo</h1>
 <p class="subtitle">Mil días, uno por uno.</p>
 <p class="meta"><span>4 de 1000 publicados</span><span>Del 3 de noviembre de 2026 al 29 de julio de 2029</span></p>
+<nav class="archive-jump" aria-label="Saltar a un grupo de días">{"".join(jump)}</nav>
 {chr(10).join(groups)}
 </main>"""
                + footer("../", "4"))
@@ -275,13 +311,47 @@ def main():
         '<body><p>El archivo está en <a href="dias/">dias/</a>.</p></body></html>\n',
         encoding="utf-8")
 
+    # --- Qué es esto (solo información verificada del proyecto) ---
+    about = (head(title="Qué es esto — Mil días",
+                  description="Mil días es un archivo de recuerdos de Mauricio Daniel Medina: mil días, del 3 de noviembre de 2026 al 29 de julio de 2029.",
+                  url=f"{SITE_URL}/acerca/", prefix="../")
+             + header("../", current="acerca")
+             + f"""<main class="about">
+<h1>Qué es esto</h1>
+<p class="subtitle">Un archivo de recuerdos</p>
+<p class="dates">{esc(SITE['start_label'])}</p>
+<hr class="gold-rule">
+<p>Mil días es un archivo de recuerdos: mil días, mil textos, publicados
+uno por día.</p>
+<dl>
+<dt>Autor</dt><dd>{esc(SITE['author'])}</dd>
+<dt>Inicio</dt><dd>3 de noviembre de 2026</dd>
+<dt>Fin</dt><dd>29 de julio de 2029</dd>
+<dt>Duración</dt><dd>1000 días</dd>
+<dt>Publicados</dt><dd>4 de 1000 (días I a IV)</dd>
+</dl>
+<p>Los textos se publican tal como los escribe el autor: lo que se escribe
+lo decide él. Acá no hay comentarios ni suscripción: para seguir el archivo,
+podés visitarlo cada día o suscribirte al feed RSS.</p>
+<ul>
+<li><a href="../">Leer desde el inicio — Día I</a></li>
+<li><a href="../dias/">Ver el archivo completo</a></li>
+<li><a href="../feed.xml">Feed RSS de los días publicados</a></li>
+<li><a href="{esc(SITE['portfolio'])}">Portfolio de {esc(SITE['author'])}</a></li>
+<li><a href="{esc(SITE['github'])}">GitHub de {esc(SITE['author'])}</a></li>
+</ul>
+</main>"""
+             + footer("../", "4"))
+    (ROOT / "acerca").mkdir(exist_ok=True)
+    (ROOT / "acerca" / "index.html").write_text(about, encoding="utf-8")
+
     # --- Días 1..1000 ---
     day_meta = {}
     for n in range(1, 1001):
         day_meta[n] = render_day(n)
 
     # --- Sitemap ---
-    urls = [("", "2026-11-06"), ("dias/", "2026-11-06")]
+    urls = [("", "2026-11-06"), ("dias/", "2026-11-06"), ("acerca/", "2026-11-06")]
     for n in range(1, 1001):
         urls.append((f"dia/{n}/", day_meta[n][3].isoformat()))
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'

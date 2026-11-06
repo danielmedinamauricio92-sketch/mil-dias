@@ -20,6 +20,8 @@
 <meta name="twitter:title" content="Día DCXXVIII — Mil días">
 <meta name="twitter:description" content="Este día aún no llegó.">
 <meta name="twitter:image" content="https://danielmedinamauricio92-sketch.github.io/mil-dias/assets/og-mil-dias.png">
+<meta name="theme-color" content="#0a0a09">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Mil días" href="https://danielmedinamauricio92-sketch.github.io/mil-dias/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +37,10 @@
 <circle cx="50" cy="62" r="5" fill="#c9a227" stroke="none"/>
 <path d="M45 72 L55 72 L50 82 Z" fill="#c9a227" stroke="none"/>
 </svg><span>Mil días</span></a>
-<a class="nav-archivo" href="../../dias/">Archivo</a>
+<nav class="nav-links" aria-label="Navegación principal">
+<a class="nav-link" href="../../acerca/">Qué es esto</a>
+<a class="nav-link" href="../../dias/">Archivo</a>
+</nav>
 </header>
 <main>
 <p class="day-kicker">Día DCXXVIII</p>
@@ -44,14 +49,17 @@
 <article class="entry placeholder">
 <p>Este día aún no llegó.</p>
 </article>
-<nav class="day-nav"><a href="../../dia/627/">‹ Día anterior</a><a href="../../index.html">Hoy</a><a href="../../dia/629/">Día siguiente ›</a></nav>
+<nav class="day-nav" aria-label="Navegación entre días"><a class="day-nav-btn prev" href="../../dia/627/" aria-label="Ir al día DCXXVII">‹ Día anterior<small>Día DCXXVII</small></a><a class="day-nav-btn today-btn" href="../../index.html">Hoy<small>Portada</small></a><a class="day-nav-btn next" href="../../dia/629/" aria-label="Ir al día DCXXIX">Día siguiente ›<small>Día DCXXIX</small></a></nav>
 
 </main><footer class="site">
 <p>Mil días — Un archivo de recuerdos · por Mauricio Daniel Medina</p>
-<p><a href="https://daniel-medina-portfolio.vercel.app">Portfolio</a> · <a href="https://github.com/danielmedinamauricio92-sketch">GitHub</a></p>
+<p><a href="../../acerca/">Qué es esto</a> · <a href="https://daniel-medina-portfolio.vercel.app">Portfolio</a> · <a href="https://github.com/danielmedinamauricio92-sketch">GitHub</a></p>
 <p>Reproducción estática hecha por el autor a partir de <a href="https://mil-dias.lovable.app/">mil-dias.lovable.app</a>, sin Lovable.</p>
 </footer>
-<div class="progress"><b>628</b> / 1000</div>
+<div class="progress" role="status" aria-label="Progreso del archivo: día 628 de 1000">
+<div class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width:62.8%"></span></div>
+<b>628</b> / 1000 · 62.8 %
+</div>
 <script>
 function copyLink(btn){const u=btn.dataset.url;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>{btn.textContent='Enlace copiado ✓';setTimeout(()=>btn.textContent='Copiar enlace',2500);}).catch(()=>{fallbackCopy(u,btn);});}else{fallbackCopy(u,btn);}}
 function fallbackCopy(u,btn){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');btn.textContent='Enlace copiado ✓';}catch(e){btn.textContent=u;}document.body.removeChild(t);setTimeout(()=>btn.textContent='Copiar enlace',2500);}

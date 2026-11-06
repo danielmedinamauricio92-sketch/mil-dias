@@ -309,6 +309,9 @@ def main():
 {manifesto_html}
 </div>
 <p class="signature"><span class="signature-name">{esc(SITE['author'])}</span></p>
+<nav class="foot-links" aria-label="Continuar explorando Mil días">
+<a href="dias/">Archivo</a> · <a href="acerca/">Qué es esto</a>
+</nav>
 </main>"""
              + footer("", "4"))
     (ROOT / "index.html").write_text(index, encoding="utf-8")
@@ -325,19 +328,22 @@ def main():
 
     # --- Qué es esto (solo información verificada del proyecto) ---
     about = (head(title="Qué es esto — Mil días",
-                  description="Hay recuerdos que no desaparecen.",
+                  description="No todo lo que ocurrió merece ser recordado.",
                   url=f"{SITE_URL}/acerca/", prefix="../")
              + header("../", current="acerca")
              + f"""<main class="about">
-<h1>Qué es esto</h1>
-<p class="subtitle">Un archivo de recuerdos</p>
+<h1>Mil días</h1>
 <hr class="gold-rule">
 <div class="manifesto">
-{manifesto_html}
+<p><em>No todo lo que ocurrió merece ser recordado.</em></p>
+<p><em>Pero algunas cosas merecen convertirse en historias.</em></p>
+<p>Mil días.</p>
+<p>Tal vez mil historias.</p>
+<p>Tal vez ninguna respuesta.</p>
 </div>
-<p class="signature"><span class="signature-name">{esc(SITE['author'])}</span></p>
+<p class="signature"><strong class="signature-name">{esc(SITE['author'])}</strong></p>
 <ul class="about-links">
-<li><a href="../">Leer desde el inicio — Día I</a></li>
+<li><a href="../dia/1/">Leer desde el inicio — Día I</a></li>
 <li><a href="../dias/">Ver el archivo completo</a></li>
 <li><a href="../feed.xml">Feed RSS</a></li>
 </ul>

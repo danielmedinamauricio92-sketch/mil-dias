@@ -122,7 +122,7 @@ def head(*, title, description, url, prefix, og_type="website"):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{prefix}assets/styles.css">
+<link rel="stylesheet" href="{prefix}assets/styles.css?v=2">
 </head>
 """
 
@@ -132,7 +132,7 @@ def header(prefix, current=""):
         return ' aria-current="page"' if current == name else ""
     return f"""<body>
 <header class="top">
-<a class="logo" href="{prefix}index.html" aria-label="Inicio — Mil días"><img src="{prefix}assets/favicon.svg" alt="" width="24" height="24"><span>Mil días</span></a>
+<a class="logo" href="{prefix}index.html" aria-label="Inicio — Mil días"><img src="{prefix}assets/hourglass.svg?v=2" alt="" width="24" height="24"><span>Mil días</span></a>
 <nav class="nav-links" aria-label="Navegación principal">
 <a class="nav-link" href="{prefix}acerca/"{cur("acerca")}>Qué es esto</a>
 <a class="nav-link" href="{prefix}dias/"{cur("archivo")}>Archivo</a>
@@ -228,7 +228,6 @@ def render_day(n):
 
 def main():
     # --- Portada ---
-    latest = max(int(k) for k, v in DAYS.items() if v.get("published"))
     url = f"{SITE_URL}/"
     desc = MANIFESTO[0] + " " + MANIFESTO[1]
     manifesto_html = "\n".join(f"<p><em>{esc(p)}</em></p>" for p in MANIFESTO)
@@ -236,7 +235,7 @@ def main():
                   url=url, prefix="")
              + header("")
              + f"""<main class="cover">
-<img class="hero-svg" src="assets/hourglass.svg" alt="" width="60" height="92">
+<img class="hero-svg" src="assets/hourglass.svg?v=2" alt="" width="60" height="92">
 <h1>Mil días</h1>
 <p class="subtitle">{esc(SITE['subtitle'])}</p>
 <hr class="gold-rule">
@@ -244,10 +243,6 @@ def main():
 {manifesto_html}
 </div>
 <p class="signature"><span class="signature-name">{esc(SITE['author'])}</span></p>
-<nav class="cover-actions" aria-label="Empezar a leer">
-<a class="cover-btn primary" href="dia/{latest}/">Comenzar a leer</a>
-<a class="cover-btn" href="dias/">Explorar los recuerdos</a>
-</nav>
 </main>"""
              + footer("", "4"))
     (ROOT / "index.html").write_text(index, encoding="utf-8")

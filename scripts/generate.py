@@ -69,7 +69,10 @@ def first_paragraph(n: int) -> str:
 
 
 def thematic_title(n: int) -> str:
-    """Primera frase temática: primer subtítulo si lo hay, si no, primer párrafo."""
+    """Título explícito o primera frase temática del relato."""
+    title = DAYS.get(str(n), {}).get("title")
+    if title:
+        return title
     for b in blocks(n):
         if b["type"] == "h2":
             return b["text"]
@@ -207,6 +210,8 @@ def render_day(n):
         text = esc(b["text"])
         if b.get("italic"):
             text = f"<em>{text}</em>"
+        if b.get("bold"):
+            text = f"<strong>{text}</strong>"
         tag = "h2" if b["type"] == "h2" else "p"
         body.append(f"<{tag}>{text}</{tag}>")
     entry_class = "entry" if published else "entry placeholder"
